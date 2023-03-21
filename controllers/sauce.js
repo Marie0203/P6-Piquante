@@ -17,6 +17,9 @@ exports.createSauce = (req, res, next) => {
 
 // Modification d'une sauce //
 exports.modifySauce = (req, res, next) => {
+    Sauce.findOne({ _id: req.params.id }).then((sauce) => {
+        const filename = sauce.imageUrl.split("/images/")[1];
+        fs.unlink(`images/${filename}`, () => {
     const sauceObject = req.file ?
         {
             ...JSON.parse(req.body.sauce),
@@ -25,7 +28,9 @@ exports.modifySauce = (req, res, next) => {
     Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
         .then(() => res.status(200).json({ message: 'Sauce modifiée' }))
         .catch(() => res.status(400).json({ error }))
-};
+});
+    });
+}
 
 // Suppression d'une sauce //
 exports.deleteSauce = (req, res, next) => {
