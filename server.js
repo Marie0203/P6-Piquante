@@ -37,8 +37,10 @@ const errorHandler = error => {
   }
 };
 
+// Création d'un serveur //
 const server = http.createServer(app);
 
+// Lance le serveur et affiche sur quel port se connecter ou gère les erreurs s'il y en a //
 server.on('error', errorHandler);
 server.on('listening', () => {
   const address = server.address();
